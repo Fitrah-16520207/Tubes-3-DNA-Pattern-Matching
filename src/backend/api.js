@@ -105,12 +105,11 @@ router.post('/testDisease', (req, res)=>{
             let startIdx = pattern.KMP(patient_dna_sequence, disease_dna_sequence);
             let similarity = -1;
             let positive = startIdx == -1 ? false : true;
-            pool.query(`INSERT INTO test VALUES (?, ?, ?, ?, ?, ?, ?);`, [
+            pool.query(`INSERT INTO test VALUES (?, ?, ?, ?, ?, ?);`, [
                 null,
                 `${tanggalTest.getFullYear()}-${tanggalTest.getMonth()}-${tanggalTest.getDay()}`,
                 patient_name,
                 disease_name,
-                patient_dna_sequence,
                 positive,
                 similarity
             ]);

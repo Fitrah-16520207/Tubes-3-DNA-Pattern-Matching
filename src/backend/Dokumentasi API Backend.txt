@@ -7,14 +7,10 @@ maksimum 4.294.967.295 karakter atau 4 GB data per entri
 
 Database
 CREATE TABLE disease(disease_name VARCHAR(1024) PRIMARY KEY, disease_dna_sequence LONGTEXT);
-CREATE TABLE test(test_id INTEGER PRIMARY KEY AUTO_INCREMENT, test_date DATE, patient_name VARCHAR(1024), disease_name VARCHAR(1024), patient_dna_sequence LONGTEXT, positive TINYINT, similarity INTEGER, FOREIGN KEY (disease_name) REFERENCES disease(disease_name));
+CREATE TABLE test(test_id INTEGER PRIMARY KEY AUTO_INCREMENT, test_date DATE, patient_name VARCHAR(1024), disease_name VARCHAR(1024), positive TINYINT, similarity INTEGER, FOREIGN KEY (disease_name) REFERENCES disease(disease_name));
 
 
 === Daftar API ===
-Catatan:
-Pada hasil respons server, kalau ok bernilai true PASTI error_code tidak ada
-Kalau ok bernilai true mungkin ada data tambahan di atribut result
-
 1. Menambahkan Penyakit ke Database
 POST
 kirim ke: hostname/api/addDisease
@@ -27,6 +23,8 @@ body:
 	overwrite_existing: true/false
 }
 result: res.json({ok: true/false, error_code: 1-100, description: "asdf"});
+Kalau ok bernilai true PASTI error_code tidak ada
+Kalau ok bernilai true mungkin ada data tambahan di atribut result
 
 2. Mencocokkan penyakit
 PERHATIAN: atribut positive bernilai true atau false pada hasil
@@ -60,7 +58,7 @@ result: res.json({ok: true/false, error_code: 1-100, description: "asdf",
 		 });
 
 Test Result: id: 123, test_date: "2023-05-16", patient_name: "Mhs IF", disease_name: "Penyakit Hasil", positive: true/false, similarity: -1 atau > 0 (-1 belum diimplementasikan)
-similarity kecocokan dalam persen, kalau bonus belum dikerjakan, similarity bisa null
+similarity kecocokan dalam persen, kalau bonus belum dikerjakan, similarity bisa -1
 
 
 ============ API tambahan di luar spek ==============
