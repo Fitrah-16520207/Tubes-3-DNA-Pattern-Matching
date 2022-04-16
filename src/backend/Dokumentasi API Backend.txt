@@ -1,0 +1,86 @@
+========== DOKUMENTASI API ===========
+
+=== Struktur Database ===
+Sequence DNA disimpan di database bertipe:
+LONGTEXT
+maksimum 4.294.967.295 karakter atau 4 GB data per entri
+
+Database
+CREATE TABLE disease(disease_name VARCHAR(1024) PRIMARY KEY, disease_dna_sequence LONGTEXT);
+CREATE TABLE test(test_id INTEGER PRIMARY KEY AUTO_INCREMENT, test_date DATE, patient_name VARCHAR(1024), disease_name VARCHAR(1024), patient_dna_sequence LONGTEXT, positive TINYINT, similarity INTEGER, FOREIGN KEY (disease_name) REFERENCES disease(disease_name));
+
+
+=== Daftar API ===
+Catatan:
+Pada hasil respons server, kalau ok bernilai true PASTI error_code tidak ada
+Kalau ok bernilai true mungkin ada data tambahan di atribut result
+
+1. Menambahkan Penyakit ke Database
+POST
+kirim ke: hostname/api/addDisease
+
+header: Content-Type: application/json
+body:
+{
+	disease_name: "Nama penyakit",
+	disease_dna_sequence: "ACTGH",
+	overwrite_existing: true/false
+}
+result: res.json({ok: true/false, error_code: 1-100, description: "asdf"});
+
+2. Mencocokkan penyakit
+PERHATIAN: atribut positive bernilai true atau false pada hasil
+POST
+kirim ke: hostname/api/testDisease
+
+header: Content-Type: application/json
+body:
+{
+	patient_name: "Nama pasien",
+	disease_name: "Nama penyakit",
+	patient_dna_sequence: "ACTG"
+}
+result: res.json({ok: true/false, error_code: 1-100, description: "asdf", 
+		  result: {test_date: "5 May 2023", patient_name: "Mhs IF", disease_name: "Penyakit Hasil", positive: true/false, similarity: ?}
+		 });
+similarity kecocokan dalam persen, kalau bonus belum dikerjakan, similarity bisa null
+
+
+3. Filter hasil tes
+PERHATIAN: atribut positive bernilai 1 atau 0 (bukan true atau false) pada hasil
+	   BERBEDA dengan hasil pada mencocokkan penyakit
+GET
+kirim ke: hostname/api/searchTest?query=ini%20format%20pencarian
+panggil sebelum dikirim ke server:
+	query = parseURI(masukan pengguna)
+kalau tidak ada ?query=...., menampilkan semuanya terurut dari terbaru
+
+result: res.json({ok: true/false, error_code: 1-100, description: "asdf", 
+		  result: array of Test Result ([result1, result2, ..., resultn])
+		 });
+
+Test Result: id: 123, test_date: "2023-05-16", patient_name: "Mhs IF", disease_name: "Penyakit Hasil", positive: true/false, similarity: -1 atau > 0 (-1 belum diimplementasikan)
+similarity kecocokan dalam persen, kalau bonus belum dikerjakan, similarity bisa null
+
+
+============ API tambahan di luar spek ==============
+4. Melihat daftar disease
+GET
+kirim ke: hostname/api/searchDisease?query=....
+mirip dengan API Filter hasil tes
+
+result: res.json({ok: true/false, error_code: 1-100, description: "asdf",
+		  result: array of Disease Result ([result1, result2, ..., resultn))
+Disease Result: disease_name: "Nama Penyakit", disease_dna_sequence: "ACTG"
+
+5. Menghapus penyakit dengan nama tertentu
+POST
+kirim ke: hostname/api/deleteDisease
+
+header: Content-Type: application/json
+body:
+{
+	disease_name: "Nama penyakit yang ingin dihapus",
+}
+
+result: res.json({ok: true/false, error_code: 1-100, description: "asdf"})

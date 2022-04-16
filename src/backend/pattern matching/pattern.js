@@ -1,5 +1,3 @@
-
-
 var KMP = function(text, pattern ){
     var patternLen = pattern.length;
     var idxStart = computeFail(pattern);
@@ -46,3 +44,5 @@ console.log(pattern);
 console.log(idxstart);
 console.log(idxEnd);
 console.log(com);
+
+module.exports.KMP = KMP;
