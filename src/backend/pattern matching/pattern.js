@@ -1,45 +1,48 @@
 
 
 var KMP = function(text, pattern ){
-    var n = text.length;
-    var m = pattern.length;
-    var fail = computeFail(pattern);
-    var i=0;
-    var j=0;
-    while (i<n){
-        if(pattern.charAt(j) == text.charAt(i)){
-            if(j == m-1) return i -m + 1;
-            i++;
-            j++;
+    var patternLen = pattern.length;
+    var idxStart = computeFail(pattern);
+    var idx=0;
+    var patIdx=0;
+    while (idx<text.length){
+        if(pattern.charAt(patIdx) == text.charAt(idx)){
+            if(patIdx == patternLen-1) return idx -patternLen + 1;
+            idx++;
+            patIdx++;
         }
-        else if(j>0) j = fail[j-1]
-        else i++;
+        else if(patIdx>0) patIdx = idxStart[patIdx-1]
+        else idx++;
     }
     return -1;
 
 }
 var computeFail = function(pattern){
-    var fail = [];
-    fail[0] = 0;
-    var m = pattern.length;
-    var j = 0;
-    var i = 1;
-    while (i< m){
-        if (pattern.charAt(j) == pattern.charAt(i)){
-            fail[i] = j+1;
-            i++;
-            j++;
+    var arrPrefix = [];
+    arrPrefix[0] = 0;
+    var arrStart = 0;
+    var idx = 1;
+    while (idx< pattern.length){
+        if (pattern.charAt(arrStart) == pattern.charAt(idx)){
+            arrPrefix[idx] = arrStart+1;
+            idx++;
+            arrStart++;
         }
-        else if (j>0) j = fail[j-1];
+        else if (arrStart>0) arrStart = arrPrefix[arrStart-1];
         else {
-            fail[i] =0;
-            i++;
+            arrPrefix[idx] =0;
+            idx++;
         }
     }
-    return fail;
+    return arrPrefix;
 }
-var string = 'bacbababaabcba';
+var string = 'bacbababacabcba';
 var pattern = 'ababaca';
+var idxstart = KMP(string,pattern);
+var idxEnd = idxstart + pattern.length -1;
+var com = computeFail(pattern);
 console.log(string);
 console.log(pattern);
-console.log(KMP(string,pattern));
+console.log(idxstart);
+console.log(idxEnd);
+console.log(com);
