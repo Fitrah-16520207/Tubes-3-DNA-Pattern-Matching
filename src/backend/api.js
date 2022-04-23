@@ -102,8 +102,9 @@ router.post('/testDisease', (req, res)=>{
             }
 
             let tanggalTest = new Date();
-            let startIdx = pattern.KMP(patient_dna_sequence, disease_dna_sequence);
-            let similarity = -1;
+            let solution = pattern.KMP(patient_dna_sequence, disease_dna_sequence);
+            let startIdx = solution[0];
+            let similarity = solution[0]/disease_dna_sequence*100;
             let positive = startIdx == -1 ? false : true;
             pool.query(`INSERT INTO test VALUES (?, ?, ?, ?, ?, ?);`, [
                 null,
