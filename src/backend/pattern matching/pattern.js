@@ -1,3 +1,17 @@
+var checkHamming=function(text,pattern,patIdx,textIdx,distance){
+    for(let i = patIdx ;i<pattern.length;i++){
+        if(text.charAt(textIdx) == pattern.charAt(i)){
+            distance++;
+        }
+        patIdx++;
+        textIdx++;
+
+    }
+    return distance;
+}
+
+
+
 var KMP = function(text, pattern ){
     var solution = new Array(2);
     var patternLen = pattern.length;
@@ -17,11 +31,14 @@ var KMP = function(text, pattern ){
             solution[1] = Math.max(solution[1],patIdx);
         }
         else if(patIdx>0) {
-            solution[1] = Math.max(solution[1],patIdx);
+            solution[1] = Math.max(solution[1],checkHamming(text,pattern,patIdx,idx,patIdx));
             patIdx = idxStart[patIdx-1];
         }
 
-        else idx++;
+        else {
+            solution[1] = Math.max(solution[1],checkHamming(text,pattern,patIdx,idx,patIdx));
+            idx++;
+        }
     }
     solution[0] = -1;
     return solution;
@@ -48,7 +65,9 @@ var computeFail = function(pattern){
 }
 var string = 'bacbbbabacabcba';
 var pattern = 'ababaca';
-var idxstart = KMP(string,pattern);
+var string1 = "akusilah";
+var pola = "salah";
+var idxstart = KMP(string1,pola);
 var idxEnd = idxstart[0] + pattern.length -1;
 var com = computeFail(pattern);
 console.log(string);

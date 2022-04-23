@@ -25,7 +25,7 @@ function Levesnshtein(string,pattern)
 	}
 	// Edit distance is delete operations +
 	// insert operations.
-	return (string.length - curr[string.length][pattern.length]) + (pattern.length - curr[string.length][pattern.length]);
+	return ((string.length - curr[string.length][pattern.length]) + (pattern.length - curr[string.length][pattern.length]) - (string.length-pattern.length))/2;
 }
 
 
@@ -61,5 +61,8 @@ var string = 'bacbababadbcba';
 var pattern = 'ababaca';
 var pattern1 = 'ababbdb';
 var string1 = 'bacbababacabcb';
+var string2 = "sitting";
+var pola = "kitten";
 console.log(Levesnshtein(string, pattern));
+console.log(lcs(string2, pola));
 
