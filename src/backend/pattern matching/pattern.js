@@ -46,7 +46,7 @@ var computeFail = function(pattern){
     }
     return arrPrefix;
 }
-var string = 'bacbababacbbcba';
+var string = 'bacbbbabacabcba';
 var pattern = 'ababaca';
 var idxstart = KMP(string,pattern);
 var idxEnd = idxstart[0] + pattern.length -1;
