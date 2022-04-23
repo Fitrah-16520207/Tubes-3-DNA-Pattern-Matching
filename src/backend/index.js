@@ -1,11 +1,13 @@
 const express = require('express');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+var cors = require('cors');
+const PORT = process.env.PORT || 3001;
 
 // Parse JSON data
 app.use(express.json());
-
+//use cors
+app.use(cors());
 // Handling request api
 app.use('/api', require('./api'));
 

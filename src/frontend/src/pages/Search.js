@@ -1,6 +1,9 @@
 import React from 'react'
+import ListSearch from '../components/ListSearch'
+
 
 export const Search = () => {
+
   return (
     <main class="mt-10 mx-auto max-w-screen-lg px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-10 lg:px-8 xl:mt-15 " >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,6 +41,7 @@ export const Search = () => {
           </div>
         </div>
       </form>
+      <ListSearch />
     </main>
   )
 }

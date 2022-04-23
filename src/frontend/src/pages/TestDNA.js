@@ -2,6 +2,7 @@ import React from 'react'
 
 export const TestDNA = () => {
   return (
+    
       <main class= "mt-10 mx-auto max-w-screen-xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-10 lg:px-8 xl:mt-15 " >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="lg:text-center">
@@ -16,16 +17,16 @@ export const TestDNA = () => {
                       <div className="grid grid-cols-6 gap-6">
 
                           <div className="col-span-6 sm:col-span-6 lg:col-span-2">
-                              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                                  Username
+                              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                  Name
                               </label>
                               <input
                                   type="text"
-                                  name="username"
-                                  id="username"
+                                  name="name"
+                                  id="name"
                                   autoComplete="on"
                                   className="mt-5 h-8 pl-5 w-full focus:ring-indigo-500 focus:border-indigo-500 block shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                  placeholder="<Username>"
+                                  placeholder="<Name>"
                               />
                           </div>
 
@@ -73,6 +74,24 @@ export const TestDNA = () => {
                   </div>
               </div>
           </form>
+          <div className="mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="shadow overflow-hidden sm:rounded-md text-center items-center ">
+                  <div className="px-4 py-5 bg-indigo-600 sm:p-6">
+                      <div className="lg:text-center">
+                          <p className=" text-7xl leading-8 font-bold tracking-tight text-white sm:text-4xl">
+                              Test Result
+                          </p>
+                      </div>
+                      
+                  </div>
+                  <div className="lg:text-center">
+                      <p className=" text-xl leading-8 font-medium tracking-tight text-gray-900 sm:text-2xl py-8">
+                          Tanggal - Pengguna - Penyakit - True/False
+                      </p>
+                  </div>
+              </div>
+          </div>
+
     </main>
   )
 }
