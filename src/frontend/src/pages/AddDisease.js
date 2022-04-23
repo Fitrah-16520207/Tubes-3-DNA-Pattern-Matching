@@ -2,25 +2,7 @@ import React from 'react'
 import axios from 'axios'
 
 export const AddDisease = () => {
-  // const [diseaseName, setDiseaseName] = React.useState('')
-  // const [diseaseDescription, setDiseaseDescription] = React.useState('')
-  // const [diseaseSymptoms, setDiseaseSymptoms] = React.useState('')
-  
-  // const handleSubmit = (e) => {
-  //   e.preventDefault()
-  //   axios.post('http://localhost:5000/api/diseases', {
-  //     diseaseName,
-  //     diseaseDescription,
-  //     diseaseSymptoms
-  //   })
-  //   .then(res => {
-  //     console.log(res.data)
-  //   }
-  //   )
-  //   .catch(err => {
-  //     console.log(err)
-  //   }
-  //   )
+
   return (
     <div>
       <div class="mt-10 mx-auto max-w-screen-lg px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-10 lg:px-8 xl:mt-15 " >
