@@ -2,42 +2,46 @@ import React, { Component } from 'react'
 import axios from 'axios'
 
 const api = "http://localhost:3001"
-// const options = {
-//   headers: { "Content-Type": "application/json" }
-// }
+
 export default class AddDisease extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       diseaseName:'',
-      sequenceDna:'ACTACTACTACTACTACTTCG',
+      sequenceDNA:'',
       response : ''
     }
+    this.uploadFile = this.uploadFile.bind(this)
   }
 
   AddDisease = () => {
     let data = JSON.stringify({
-      disease_name: "Anonim",
-      disease_dna_sequence: "ACTACTACTACTACTACTTCG",
-      overwrite_existing: true,
+      disease_name: this.state.diseaseName,
+      disease_dna_sequence: this.state.sequenceDNA,
+      overwrite_existing: false,
     });
-    console.log(data)
 
     axios.post(api + '/api/addDisease', data, 
       {
         headers: { "Content-Type": "application/json"},
     })
       
-    // .then(res => {
-    //   this.setState({
-    //     response: res.json.ok
-    //   })
-    // })
   }
 
   handleChange = (e) => {
     this.setState({[e.target.name]: e.target.value})
+  }
+
+  uploadFile(event) {
+    let file = event.target.files[0];
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      this.setState({
+        sequenceDNA: reader.result
+      })
+    }
+    reader.readAsText(file);
   }
 
   render() {
@@ -73,7 +77,7 @@ export default class AddDisease extends Component {
                   </div>
 
                   <div className="col-span-4 sm:col-span-4 lg:col-span-2 center">
-                    <label htmlFor="SequenceDna" className=" text-sm font-medium text-gray-700">
+                    <label htmlFor="SequenceDNA" className=" text-sm font-medium text-gray-700">
                       Sequence DNA
                     </label>
                     <div className=" mt-5 w-ful flex justify-center px-6 pt-1 pb-1 border-2 border-gray-300 border-dashed rounded-md">
@@ -90,8 +94,7 @@ export default class AddDisease extends Component {
                               name="file-upload" 
                               type="file" 
                               className="sr-only content-center" 
-                              // value={this.state.sequenceDna}
-                              // onChange={this.handleChange}
+                              onChange={this.uploadFile }
                             />
                           </label>
                         </div>
@@ -102,7 +105,7 @@ export default class AddDisease extends Component {
               </div>
               <div className="mt-10 px-4 py-3 bg-gray-50 text-center sm:px-6">
                 <button
-                  type="submit"
+                  type="button"
                   className="mt-5 inline-flex justify-center py-2 px-4 w-52 border-transparent shadow-sm text-sm  rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
                   onClick={this.AddDisease}
                 >
@@ -127,4 +130,5 @@ export default class AddDisease extends Component {
       </div>
     )
   }
+  
 }

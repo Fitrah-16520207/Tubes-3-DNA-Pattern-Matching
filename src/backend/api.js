@@ -20,7 +20,7 @@ router.post('/addDisease', (req, res) => {
                         description: "New disease submission failed: Disease name already exists"
                     });
                 } else {
-                    pool.query(`UPDATE disease SET disease_dna_sequence=?;`, [disease_dna_sequence], (err, results, fields)=>{
+                    pool.query(`UPDATE disease SET disease_dna_sequence=? WHERE disease_name=?;`, [disease_dna_sequence,disease_name], (err, results, fields)=>{
                         res.json({
                             ok: true,
                             description: "Disease updated"
