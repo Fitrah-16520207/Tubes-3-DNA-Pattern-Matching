@@ -7,9 +7,9 @@ export default class ListSearch extends Component {
         super(props)
 
         this.state = {
-            diseases: []
-            // responses: '',
-            // display: 'none'
+            diseases: [],
+            responses: '',
+            display: 'none'
         }
     }
 
@@ -41,7 +41,7 @@ export default class ListSearch extends Component {
                         <th className ="p-3 text-sm font-semibold tracking-wide text-left">similarity</th>
                     </tr>
                 </thead>
-                    <tbody className="shadow ">
+                <tbody className="shadow">
                     {this.state.diseases.map(disease => 
                         <tr className = "bg-white" key={disease.test_id}>
                             <td  className ="p-3 text-sm text-indigo-600">{disease.test_id}</td>
