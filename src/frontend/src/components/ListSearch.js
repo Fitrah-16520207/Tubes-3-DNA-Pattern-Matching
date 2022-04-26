@@ -30,8 +30,8 @@ export default class ListSearch extends Component {
     render() {
         return (
             <div>
-            <table class="w-full mt-10"> 
-                <thead class="bg-gray-100 border-b-2 border-gray-300">
+            <table className="w-full mt-10"> 
+                <thead className="bg-gray-100 border-b-2 border-gray-300">
                     <tr>
                         <th className ="p-3 text-sm font-semibold tracking-wide text-left">test_id</th>
                         <th className ="p-3 text-sm font-semibold tracking-wide text-left">test_date</th>

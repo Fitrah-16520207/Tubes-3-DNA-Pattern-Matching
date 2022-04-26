@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import axios from 'axios'
 
 const api = "http://localhost:3001"
@@ -6,11 +6,12 @@ const api = "http://localhost:3001"
 export default class AddDisease extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
       diseaseName:'',
       sequenceDNA:'',
-      response : ''
+      message: "",
+      visible: false,
+      ok: true
     }
     this.uploadFile = this.uploadFile.bind(this)
   }
@@ -26,14 +27,30 @@ export default class AddDisease extends Component {
       {
         headers: { "Content-Type": "application/json"},
     })
-      
+    .then(res => {
+      this.setState({
+        message: "Disease added successfully",
+        ok: true
+      })
+    })
+    .catch(err => {
+      this.setState({
+        message: err.response.data.description,
+        ok:false
+      })
+    })
+    this.setState({
+      visible: true
+    })
   }
 
   handleChange = (e) => {
+    this.setState({ visible: false })
     this.setState({[e.target.name]: e.target.value})
   }
 
   uploadFile(event) {
+    this.setState({ visible: false })
     let file = event.target.files[0];
     let reader = new FileReader();
     reader.onloadend = () => {
@@ -44,10 +61,12 @@ export default class AddDisease extends Component {
     reader.readAsText(file);
   }
 
+
   render() {
+    
     return (
       <div>
-        <div class="mt-10 mx-auto max-w-screen-lg px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-10 lg:px-8 xl:mt-15 " >
+        <div className="mt-10 mx-auto max-w-screen-lg px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-10 lg:px-8 xl:mt-15 " >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="lg:text-center">
               <p className=" text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -116,17 +135,19 @@ export default class AddDisease extends Component {
           </form>
           
         </div>
+        {this.state.visible ?
         <div className="mt-20 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="shadow overflow-hidden sm:rounded-md text-center items-center ">
-            <div className="px-4 py-5 bg-indigo-600 sm:p-6">
+              <div className={this.state.ok ? "px-4 py-5 bg-indigo-600 sm:p-6" : "px-4 py-5 bg-red-500 sm:p-6"}>
               <div className="lg:text-center">
-                <p className=" text-3xl leading-8 font-bold tracking-tight text-white sm:text-4xl">
-                  Sucessfully added!
-                </p>
+                <p className= "text-3xl leading-8 font-bold tracking-tight text-white sm:text-4xl" >
+                  {this.state.message}
+                  </p>
               </div>
             </div>
           </div>
         </div>
+        : null} 
       </div>
     )
   }

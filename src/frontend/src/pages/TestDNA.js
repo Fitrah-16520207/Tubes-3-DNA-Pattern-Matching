@@ -12,11 +12,16 @@ export default class TestDNA extends Component {
             name: '',
             diseasePredict: '',
             sequenceDNA: '',
+            visible: false,
+            ok: true,
+            message: '',
+            result:[],
         }
         this.uploadFile = this.uploadFile.bind(this)
 
     }
     handleChange = (e) => {
+        this.setState({ visible: false})
         this.setState({ [e.target.name]: e.target.value })
     }
     
@@ -30,8 +35,21 @@ export default class TestDNA extends Component {
         axios.post(api + '/api/testDisease', data,
             {
                 headers: { "Content-Type": "application/json" },
+            }).then
+            (res => {
+                this.setState({
+                    result: res.data.result,
+                    ok : true
+                })
+            }
+            ).catch(err => {
+                this.setState({
+                    message: err.response.data.description,
+                    ok: false
+                })
             })
-
+        
+        this.setState({ visible: true })
     }
 
     uploadFile(event) {
@@ -130,23 +148,42 @@ export default class TestDNA extends Component {
                         </div>
                     </div>
                 </form>
-                <div className="mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="shadow overflow-hidden sm:rounded-md text-center items-center ">
-                        <div className="px-4 py-5 bg-indigo-600 sm:p-6">
-                            <div className="lg:text-center">
-                                <p className=" text-7xl leading-8 font-bold tracking-tight text-white sm:text-4xl">
-                                    Test Result
+                {this.state.visible ? 
+                <div>
+                {this.state.ok ?
+                    <div className="mt-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="shadow overflow-hidden sm:rounded-md text-center items-center ">
+                            <div className="px-4 py-5 bg-indigo-600 sm:p-6">
+                                <div className="lg:text-center">
+                                    <p className=" text-7xl leading-8 font-bold tracking-tight text-white sm:text-4xl">
+                                        Test Result
+                                    </p>
+                                </div>
+
+                            </div>
+                            <div className="lg:text-center">    
+                                <p className=" text-xl leading-8 font-medium tracking-tight text-gray-900 sm:text-2xl py-8">
+                                    {this.state.result.test_date} - {this.state.name} - {this.state.diseasePredict} - {this.state.result.positive? 'true':'false'} - {this.state.result.similarity}
                                 </p>
                             </div>
-
-                        </div>
-                        <div className="lg:text-center">
-                            <p className=" text-xl leading-8 font-medium tracking-tight text-gray-900 sm:text-2xl py-8">
-                                Tanggal - Pengguna - Penyakit - True/False
-                            </p>
                         </div>
                     </div>
-                </div>
+                :
+                    <div className="mt-20 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="shadow overflow-hidden sm:rounded-md text-center items-center ">
+                            <div className= "px-4 py-5 bg-red-500 sm:p-6">
+                                <div className="lg:text-center">
+                                    <p className="text-3xl leading-8 font-bold tracking-tight text-white sm:text-4xl" >
+                                        {this.state.message}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }    
+                </div>      
+                : null}
+                
 
             </main>
         )
