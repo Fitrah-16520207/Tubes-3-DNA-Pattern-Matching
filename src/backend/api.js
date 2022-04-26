@@ -127,6 +127,21 @@ router.post('/testDisease', (req, res)=>{
                 }
             });
         });
+    } else if(!patient_name){
+        res.status(400).json(
+            {ok: false,
+             error_code: 400,
+             description: "DNA Test Failed: Patient name cannot be empty"});
+    } else if(!disease_name){
+        res.status(400).json(
+            {ok: false,
+             error_code: 400,
+             description: "DNA Test Failed: Disease name cannot be empty"});
+    } else{
+        res.status(400).json(
+            {ok: false,
+             error_code: 400,
+             description: "DNA Test Failed: Patient DNA sequence name cannot be empty"});
     }
 });
 
