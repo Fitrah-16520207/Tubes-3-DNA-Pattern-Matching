@@ -65,7 +65,7 @@ var computeFail = function(pattern){
 }
 var string = 'bacbbbabacabcba';
 var pattern = 'ababaca';
-var string1 = "akusilah";
+var string1 = "sajbhsalaqsclahsagahsalehsalahaku";
 var pola = "salah";
 var idxstart = KMP(string1,pola);
 var idxEnd = idxstart[0] + pattern.length -1;
