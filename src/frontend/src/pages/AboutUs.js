@@ -6,7 +6,7 @@ export const AboutUs = () => {
     <div className="mt-10 mx-auto max-w-screen-lg px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-10 lg:px-8 xl:mt-15 " >
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:text-center">
-          <p className=" text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <p className=" text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl ">
             About Us
           </p>
         </div>
