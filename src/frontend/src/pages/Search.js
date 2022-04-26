@@ -15,7 +15,7 @@ export default class Search extends Component {
   }
 
   searchQuery = () => {
-    axios.get(api + '/api/searchTest?query=' + this.state.query)
+    axios.get(api + '/api/searchTest?query=' + encodeURI(this.state.query) )
       .then(res => {
         this.setState({
           results: res.data.result
@@ -90,7 +90,7 @@ export default class Search extends Component {
                   <td className="p-3 text-sm text-indigo-600">{result.test_id}</td>
                   <td className="p-3 text-sm text-gray-900">{result.test_date}</td>
                   <td className="p-3 text-sm text-gray-900">{result.patient_name}</td>
-                  <td className="p-3 text-sm text-gray-900">{result.result_name}</td>
+                  <td className="p-3 text-sm text-gray-900">{result.disease_name}</td>
                   <td className="p-3 text-sm text-gray-900">{result.positive}</td>
                   <td className="p-3 text-sm text-gray-900">{result.similarity}</td>
                 </tr>

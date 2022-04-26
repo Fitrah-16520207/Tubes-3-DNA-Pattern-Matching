@@ -170,7 +170,7 @@ router.get('/searchTest', (req, res)=>{
     searchParams = url.searchParams;
     query = searchParams.get("query");
     if(query){
-        pool.query(`SELECT * FROM test WHERE disease_name LIKE ? OR patient_name LIKE ?;`, ['%' + query + '%', '%' + query + '%'], (err, results, fields)=>{
+        pool.query(`SELECT * FROM test WHERE test_date LIKE ? OR disease_name LIKE ?;`, ['%' + query + '%', '%' + query + '%'], (err, results, fields)=>{
             res.json({ok: true, result: results});
         });
     } else{
