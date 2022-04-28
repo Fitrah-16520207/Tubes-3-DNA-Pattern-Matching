@@ -63,6 +63,37 @@ var computeFail = function(pattern){
     }
     return arrPrefix;
 }
+
+var BoyerMoore = function(text,pattern){
+    var last = buildLast(pattern);
+    var n = text.length;
+    var m = pattern.length;
+    var i = m-1;
+    if(i> n-1) return -1;
+    var j = m-1;
+    do {
+        if (pattern.charAt(j) == text.charAt(i)){
+            if(j==0) return i;
+            else {
+                i--;
+                j--;
+            }
+        }
+        else{
+            var lo = last[text.charAt(i)];
+            i = i+m - Math.min(j, 1 + lo);
+            j = m-1;
+        }
+    } while(i<=n-1);
+    return -1;
+}
+
+var buildLast = function(pattern){
+    var last = new Array(128);
+    for(let i=0;i<128;i++) last[i] = -1;
+    for(let i=0;i<pattern.length;i++) last[pattern.charAt(i)] = i;
+    return last;
+}
 var string = 'bacbbbabacabcba';
 var pattern = 'ababaca';
 var string1 = "sajbhsalaqsclahsagahsalehsalahaku";
