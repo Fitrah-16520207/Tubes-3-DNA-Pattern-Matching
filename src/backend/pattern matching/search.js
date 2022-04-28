@@ -13,10 +13,12 @@ function ceksearch(str){
             diseaseresult = str.replace(date, '');
             if(resultdate.index == 0){
                 var arrstring = diseaseresult.split(' ');
-                console.log(arrstring)
                 for (i = 0; i < arrstring.length; i++) {
-                    if (arrstring[i].length > 0 ) {
-                        disease += arrstring[i] + ' ';
+                    if (arrstring[i].length > 0) {
+                        disease += arrstring[i];
+                        if (i != arrstring.length - 1) {
+                            disease += ' '
+                        }
                     }
                 }
             }
@@ -25,9 +27,19 @@ function ceksearch(str){
     else{
         disease = str
     }
-    console.log(disease);
-    console.log(date);
+
+    return { disease, date }
 }
 
 // ceksearch(" Covid-19 HIV     ANOTHER")
-ceksearch("2022-03-11 ")
+input = ceksearch("2022-12-31")
+input1 = ceksearch("COVID-19")
+input2 = ceksearch("2022-12-31 Penyakit HIV")
+input3 = ceksearch("2022-12-31 COVID-19")
+input4 = ceksearch("Covid2022")
+// console.log(disease);
+console.log(input);
+console.log(input1);
+console.log(input2);
+console.log(input3);
+console.log(input4);
