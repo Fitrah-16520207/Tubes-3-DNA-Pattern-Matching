@@ -2,12 +2,37 @@ const express = require('express');
 const router = express.Router();
 const pool = require('./dbinstance');
 const pattern = require('./pattern matching/pattern');
+const { validateSequence } = require('./pattern matching/search');
 
 router.post('/addDisease', (req, res) => {
     let data = req.body;
     let disease_name = data.disease_name ? data.disease_name.trim() : "";
     let disease_dna_sequence = data.disease_dna_sequence ? data.disease_dna_sequence.trim() : "";
-    if (disease_name && disease_dna_sequence)
+
+    // Penanganan nama disease dan sekuens dna yang kosong
+    if (!disease_name){
+        res.status(400).json({
+            ok: false,
+            error_code: 400,
+            description: "New disease submission failed: Disease name cannot be empty"
+        });
+        return;
+    } else if (!disease_dna_sequence) {
+        res.status(400).json({
+            ok: false,
+            error_code: 400,
+            description: "New disease submission failed: Disease DNA sequence cannot be empty"
+        });
+        return;
+    } else if(!validateSequence(disease_dna_sequence)){ // validasi dengan regular expression
+        res.status(400).json({
+            ok: false,
+            error_code: 400,
+            description: "New disease submission failed: Disease DNA sequence invalid! Must only contain AGCT (no other character; whitespaces and lowercase letters are also not allowed)"
+        });
+        return;
+    }
+    else if (disease_name && disease_dna_sequence)
     {
         pool.query("INSERT INTO disease VALUES (?, ?);", [disease_name, disease_dna_sequence], (err, results, fields) =>{
             if (err)
@@ -33,21 +58,7 @@ router.post('/addDisease', (req, res) => {
                 });
             }
         });
-    }
-    // Penanganan nama disease dan sekuens dna yang kosong
-    else if (!disease_name)
-    {
-        res.status(400).json({
-            ok: false,
-            error_code: 400,
-            description: "New disease submission failed: Disease name cannot be empty"
-        });
-    } else if (!disease_dna_sequence) {
-        res.status(400).json({
-            ok: false,
-            error_code: 400,
-            description: "New disease submission failed: Disease DNA sequence cannot be empty"
-        });
+        return;
     }
 });
 
@@ -76,7 +87,33 @@ router.post('/testDisease', (req, res)=>{
     let patient_name = data.patient_name ? data.patient_name.trim() : "";
     let disease_name = data.disease_name ? data.disease_name.trim() : "";
     let patient_dna_sequence = data.patient_dna_sequence ? data.patient_dna_sequence.trim() : "";
-    if(patient_name && disease_name && patient_dna_sequence){
+
+    if(!patient_name){
+        res.status(400).json(
+            {ok: false,
+             error_code: 400,
+             description: "DNA Test Failed: Patient's name cannot be empty"});
+        return;
+    } else if(!disease_name){
+        res.status(400).json(
+            {ok: false,
+             error_code: 400,
+             description: "DNA Test Failed: Disease's name cannot be empty"});
+        return;
+    } else if (!patient_dna_sequence){
+        res.status(400).json(
+            {ok: false,
+             error_code: 400,
+             description: "DNA Test Failed: Patient's DNA sequence cannot be empty"});
+        return;
+    } else if(!validateSequence(patient_dna_sequence)){
+        res.status(400).json({
+            ok: false,
+            error_code: 400,
+            description: "DNA Test Failed: Patient's DNA sequence invalid! Must only contain AGCT (no other character; whitespaces and lowercase letters are also not allowed)"
+        });
+        return;
+    } else if(patient_name && disease_name && patient_dna_sequence){
         pool.query(`SELECT * FROM disease WHERE disease_name = ?;`, [disease_name], (err, results, fields)=>{
             if(err){
                 res.status(400).json(
@@ -89,22 +126,23 @@ router.post('/testDisease', (req, res)=>{
                 res.status(400).json(
                     {ok: false,
                      error_code: 400,
-                     description: "Test Failed: no disease with that name"});
+                     description: "DNA Test Failed: no disease with that name"});
                 return;
             }
+
             let disease_dna_sequence = results[0].disease_dna_sequence;
             if(patient_dna_sequence.length < disease_dna_sequence.length){
                 res.status(400).json(
                     {ok: false,
                      error_code: 400,
-                     description: "Test Failed: patient DNA is shorter than the disease DNA"});
+                     description: "DNA Test Failed: patient's DNA is shorter than the disease's DNA"});
                 return;
             }
 
             let tanggalTest = new Date();
             let tanggalTestDate = `${tanggalTest.getFullYear()}-${tanggalTest.getMonth() + 1}-${tanggalTest.getDate()}`;
             let solution = pattern.KMP(patient_dna_sequence, disease_dna_sequence);
-            console.log(solution);
+            //console.log(solution);
             let startIdx = solution[0];
             let similarity = solution[0]/disease_dna_sequence.length*100;
             let positive = startIdx == -1 ? false : true;
@@ -128,21 +166,6 @@ router.post('/testDisease', (req, res)=>{
                 }
             });
         });
-    } else if(!patient_name){
-        res.status(400).json(
-            {ok: false,
-             error_code: 400,
-             description: "DNA Test Failed: Patient name cannot be empty"});
-    } else if(!disease_name){
-        res.status(400).json(
-            {ok: false,
-             error_code: 400,
-             description: "DNA Test Failed: Disease name cannot be empty"});
-    } else{
-        res.status(400).json(
-            {ok: false,
-             error_code: 400,
-             description: "DNA Test Failed: Patient DNA sequence name cannot be empty"});
     }
 });
 

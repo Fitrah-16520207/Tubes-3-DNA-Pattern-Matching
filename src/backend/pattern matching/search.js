@@ -1,3 +1,8 @@
+function validateSequence(str){
+    const regex = /^[AGCT]+$/;  // string minimal mempunyai satu A|G|C|T, dan di awal sampai akhir hanya tersusun atas huruf-huruf ini
+    return regex.test(str);
+}
+
 function ceksearch(str){
     var regex = new RegExp('\\d+-((1[0-2])|(0[1-9]))-(([0-2][0-9])|[3][0-1])');
     var resultdate= str.match(regex);
@@ -47,3 +52,6 @@ console.log(input2);
 console.log(input3);
 console.log(input4);
 console.log(input5);
+
+module.exports.validateSequence = validateSequence;
+module.exports.ceksearch = ceksearch;
