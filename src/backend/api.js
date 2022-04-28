@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('./dbinstance');
-const pattern = require('./pattern matching/pattern');
-const { validateSequence } = require('./pattern matching/search');
+const pattern = require('./pattern_matching/pattern');
+const { validateSequence } = require('./pattern_matching/regex_checking');
 
 router.post('/addDisease', (req, res) => {
     let data = req.body;
@@ -138,27 +138,26 @@ router.post('/testDisease', (req, res)=>{
                      description: "DNA Test Failed: patient's DNA is shorter than the disease's DNA"});
                 return;
             }
-
-            let tanggalTest = new Date();
-            let tanggalTestDate = `${tanggalTest.getFullYear()}-${tanggalTest.getMonth() + 1}-${tanggalTest.getDate()}`;
+            
             let solution = pattern.KMP(patient_dna_sequence, disease_dna_sequence);
-            //console.log(solution);
-            let startIdx = solution[0];
-            let similarity = solution[0]/disease_dna_sequence.length*100;
-            let positive = startIdx == -1 ? false : true;
+            let similarity = Math.round(solution[1] / disease_dna_sequence.length * 100);   // similarity disimpan dalam persen (integer)
+            let positive = solution[0] != -1 || similarity >= 80;
+            let now = new Date();
+            let tanggalTest = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+            
             pool.query(`INSERT INTO test VALUES (?, ?, ?, ?, ?, ?);`, [
                 null,
-                tanggalTestDate,
+                tanggalTest,
                 patient_name,
                 disease_name,
                 positive,
                 similarity
-            ], (err, results, fields)=>{console.log(err, results, fields)});
+            ]);
             
             res.json({
                 ok: true,
                 result: {
-                    test_date: tanggalTestDate,
+                    test_date: tanggalTest,
                     patient_name: patient_name,
                     disease_name: disease_name,
                     positive: positive,

@@ -40,18 +40,19 @@ function ceksearch(str){
 }
 
 // ceksearch(" Covid-19 HIV     ANOTHER")
-input = ceksearch("2022-12-31")
+/*input = ceksearch("2022-12-31")
 input1 = ceksearch("COVID-19")
 input2 = ceksearch("2022-12-31 Penyakit HIV")
 input3 = ceksearch("2022-12-31 COVID-19")
 input4 = ceksearch("Covid2022")
 input5 = ceksearch("Penyakit HIV 2022-12-31 2022-12-31")
+
 console.log(input);
 console.log(input1);
 console.log(input2);
 console.log(input3);
 console.log(input4);
-console.log(input5);
+console.log(input5);*/
 
 module.exports.validateSequence = validateSequence;
 module.exports.ceksearch = ceksearch;

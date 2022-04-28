@@ -93,10 +93,11 @@ var buildLast = function(pattern){
     for(let i=0;i<57;i++) last[i] = -1;
     for(let i=0;i<pattern.length;i++) {
         last[pattern.charAt(i)-65] = i;
-        console.log(last[pattern.charAt(i)-65]);
+        //console.log(last[pattern.charAt(i)-65]);
     }
     return last;
 }
+
 var string = 'bacbababacbbcba';
 var pattern = 'ababaca';
 var string1 = "sajbhsalaqsclahsagahsalehsalahaku";
@@ -105,7 +106,8 @@ var idxstart = KMP(string,pattern);
 var idxs = BoyerMoore(string,pattern);
 var idxEnd = idxstart[0] + pattern.length -1;
 var com = computeFail(pattern);
-console.log(string);
+
+/*console.log(string);
 console.log(pattern);
 console.log(idxstart[0]);
 console.log(idxstart[1]);
@@ -115,5 +117,6 @@ console.log(string);
 console.log(pattern);
 console.log(idxs);
 console.log(idxEnd);
-console.log(com);
+console.log(com);*/
+
 module.exports.KMP = KMP;

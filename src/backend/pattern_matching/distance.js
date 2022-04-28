@@ -57,12 +57,12 @@ function lcs (string,pattern){
     return cur[lenStr][lenPtn];
 }
 /* Driver program to test above function */
-var string = 'bacbababadbcba';
+/*var string = 'bacbababadbcba';
 var pattern = 'ababaca';
 var pattern1 = 'ababbdb';
 var string1 = 'bacbababacabcb';
 var string2 = "sitting";
 var pola = "kitten";
 console.log(Levesnshtein(string, pattern));
-console.log(lcs(string2, pola));
+console.log(lcs(string2, pola));*/
 
