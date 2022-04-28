@@ -52,7 +52,7 @@ export default class Search extends Component {
                     value ={this.state.query}
                     onChange={this.handleChange}
                     className="mt-5 h-8 pl-5 w-4/5 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md"
-                    placeholder="Search by Date or Name"
+                    placeholder="Search by Date or Name {e.g. 2022-03-00 or HIV or 2022-04-01 HIV}"
                   />
                 </div>
 
