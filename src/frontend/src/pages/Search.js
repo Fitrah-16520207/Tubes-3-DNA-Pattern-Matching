@@ -18,14 +18,11 @@ export default class Search extends Component {
     axios.get(api + '/api/searchTest?query=' + encodeURI(this.state.query) )
       .then(res => {
         this.setState({
-          results: res.data.result
+          results: res.data.result,
+          ok : res.data.ok
         })
-      }
-      )
-    // .catch(err => {
-    //     console.log(err)
-    // }
-    // )
+      })
+  
   }
   handleChange = (e) => {
     this.setState({
@@ -72,6 +69,7 @@ export default class Search extends Component {
             </div>
           </div>
         </form>
+        {this.state.ok ?
         <div>
           <table className="w-full mt-10">
             <thead className="bg-gray-100 border-b-2 border-gray-300">
@@ -98,6 +96,7 @@ export default class Search extends Component {
             </tbody>
           </table>
         </div>
+        : null}
       </main>
       
   )}
