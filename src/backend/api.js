@@ -102,6 +102,7 @@ router.post('/testDisease', (req, res)=>{
             }
 
             let tanggalTest = new Date();
+            let tanggalTestDate = `${tanggalTest.getFullYear()}-${tanggalTest.getMonth() + 1}-${tanggalTest.getDate()}`;
             let solution = pattern.KMP(patient_dna_sequence, disease_dna_sequence);
             console.log(solution);
             let startIdx = solution[0];
@@ -109,17 +110,17 @@ router.post('/testDisease', (req, res)=>{
             let positive = startIdx == -1 ? false : true;
             pool.query(`INSERT INTO test VALUES (?, ?, ?, ?, ?, ?);`, [
                 null,
-                `${tanggalTest.getFullYear()}-${tanggalTest.getMonth()}-${tanggalTest.getDay()}`,
+                tanggalTestDate,
                 patient_name,
                 disease_name,
                 positive,
                 similarity
             ], (err, results, fields)=>{console.log(err, results, fields)});
-
+            
             res.json({
                 ok: true,
                 result: {
-                    test_date: tanggalTest,
+                    test_date: tanggalTestDate,
                     patient_name: patient_name,
                     disease_name: disease_name,
                     positive: positive,
