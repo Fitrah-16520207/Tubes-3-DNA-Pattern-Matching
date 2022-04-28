@@ -80,7 +80,7 @@ var BoyerMoore = function(text,pattern){
             }
         }
         else{
-            var lo = last[text.charAt(i)];
+            var lo = last[text.charAt(i)-65];
             i = i+m - Math.min(j, 1 + lo);
             j = m-1;
         }
@@ -89,16 +89,20 @@ var BoyerMoore = function(text,pattern){
 }
 
 var buildLast = function(pattern){
-    var last = new Array(128);
-    for(let i=0;i<128;i++) last[i] = -1;
-    for(let i=0;i<pattern.length;i++) last[pattern.charAt(i)] = i;
+    var last = new Array(57);
+    for(let i=0;i<57;i++) last[i] = -1;
+    for(let i=0;i<pattern.length;i++) {
+        last[pattern.charAt(i)-65] = i;
+        console.log(last[pattern.charAt(i)-65]);
+    }
     return last;
 }
-var string = 'bacbbbabacabcba';
+var string = 'bacbababacbbcba';
 var pattern = 'ababaca';
 var string1 = "sajbhsalaqsclahsagahsalehsalahaku";
 var pola = "salah";
-var idxstart = KMP(string1,pola);
+var idxstart = KMP(string,pattern);
+var idxs = BoyerMoore(string,pattern);
 var idxEnd = idxstart[0] + pattern.length -1;
 var com = computeFail(pattern);
 console.log(string);
@@ -107,5 +111,9 @@ console.log(idxstart[0]);
 console.log(idxstart[1]);
 console.log(idxEnd);
 console.log(com);
-
+console.log(string);
+console.log(pattern);
+console.log(idxs);
+console.log(idxEnd);
+console.log(com);
 module.exports.KMP = KMP;
