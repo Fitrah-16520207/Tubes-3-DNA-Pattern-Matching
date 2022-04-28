@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const pool = require('./dbinstance');
 const pattern = require('./pattern_matching/pattern');
-const { validateSequence } = require('./pattern_matching/regex_checking');
+const { validateSequence, ceksearch } = require('./pattern_matching/search');
 
 router.post('/addDisease', (req, res) => {
     let data = req.body;
@@ -169,9 +169,10 @@ router.post('/testDisease', (req, res)=>{
 });
 
 router.get('/searchDisease', (req, res)=>{
-    url = new URL(req.url, `${req.protocol}://${req.get('host')}`);
-    searchParams = url.searchParams;
-    query = searchParams.get("query");
+    let url = new URL(req.url, `${req.protocol}://${req.get('host')}`);
+    let searchParams = url.searchParams;
+    let query = searchParams.get("query");
+    
     if(query){
         pool.query(`SELECT * FROM disease WHERE disease_name LIKE ?;`, ['%' + query + '%'], (err, results, fields)=>{
             if(results.length > 0){
@@ -180,7 +181,7 @@ router.get('/searchDisease', (req, res)=>{
                 res.json({ok: true, result: null});
             }
         });
-    } else{
+    } else{ // kalau query empty tampilkan semua disease
         pool.query(`SELECT * FROM disease;`, [], (err, results, fields)=>{
             res.json({ok: true, result: results});
         });
@@ -189,15 +190,36 @@ router.get('/searchDisease', (req, res)=>{
 
 
 router.get('/searchTest', (req, res)=>{
-    url = new URL(req.url, `${req.protocol}://${req.get('host')}`);
-    searchParams = url.searchParams;
-    query = searchParams.get("query");
-    if(query){
-        pool.query(`SELECT * FROM test WHERE test_date LIKE ? OR disease_name LIKE ?;`, ['%' + query + '%', '%' + query + '%'], (err, results, fields)=>{
+    let url = new URL(req.url, `${req.protocol}://${req.get('host')}`);
+    let searchParams = url.searchParams;
+    let query = searchParams.get("query");
+
+    query = query ? query.trim() : "";
+
+    if(!query){
+        // kalau query empty tampilkan semua test
+        pool.query(`SELECT * FROM test ORDER BY test_id DESC;`, [], (err, results, fields)=>{
             res.json({ok: true, result: results});
         });
-    } else{
-        pool.query(`SELECT * FROM test;`, [], (err, results, fields)=>{
+        return;
+    }
+
+    let {disease, date} = ceksearch(query);
+    
+    if(disease && date){
+        pool.query(`SELECT * FROM test WHERE test_date = ? AND
+                    (disease_name LIKE CONCAT("%", ?, "%") OR ? LIKE CONCAT("%", disease_name, "%")) ORDER BY test_id DESC;`,
+                    [date, disease, disease], (err, results, fields)=>{
+            res.json({ok: true, result: results});
+        });
+    } else if(date){
+        pool.query(`SELECT * FROM test WHERE test_date = ? ORDER BY test_id DESC;`,
+                    [date], (err, results, fields)=>{
+            res.json({ok: true, result: results});
+        });
+    } else if(disease){
+        pool.query(`SELECT * FROM test WHERE disease_name LIKE CONCAT("%", ?, "%") OR ? LIKE CONCAT("%", disease_name, "%") ORDER BY test_id DESC;`,
+                    [disease, disease], (err, results, fields)=>{
             res.json({ok: true, result: results});
         });
     }

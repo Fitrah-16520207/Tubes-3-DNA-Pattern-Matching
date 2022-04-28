@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-const api = "http://localhost:3001"
+const api = process.env.BACKEND_ADDRESS || 'http://localhost:3001'
 
 export default class TestDNA extends Component {
     constructor(props) {
