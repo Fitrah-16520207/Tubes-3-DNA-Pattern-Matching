@@ -11,14 +11,12 @@ function ceksearch(str){
             input = true;
             date = resultdate[0];
             diseaseresult = str.replace(date, '');
-            if(resultdate.index == 0){
-                var arrstring = diseaseresult.split(' ');
-                for (i = 0; i < arrstring.length; i++) {
-                    if (arrstring[i].length > 0) {
-                        disease += arrstring[i];
-                        if (i != arrstring.length - 1) {
-                            disease += ' '
-                        }
+            var arrstring = diseaseresult.split(' ');
+            for (i = 0; i < arrstring.length; i++) {
+                if (arrstring[i].length > 0) {
+                    disease += arrstring[i];
+                    if (i != arrstring.length - 1) {
+                        disease += ' '
                     }
                 }
             }
@@ -37,9 +35,11 @@ input1 = ceksearch("COVID-19")
 input2 = ceksearch("2022-12-31 Penyakit HIV")
 input3 = ceksearch("2022-12-31 COVID-19")
 input4 = ceksearch("Covid2022")
+input5 = ceksearch("Penyakit HIV 2022-12-31")
 // console.log(disease);
 console.log(input);
 console.log(input1);
 console.log(input2);
 console.log(input3);
 console.log(input4);
+console.log(input5);
