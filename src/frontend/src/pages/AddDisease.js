@@ -10,6 +10,7 @@ export default class AddDisease extends Component {
       diseaseName:'',
       sequenceDNA:'',
       message: "",
+      overwrite_existing: false,
       visible: false,
       ok: true
     }
@@ -20,7 +21,7 @@ export default class AddDisease extends Component {
     let data = JSON.stringify({
       disease_name: this.state.diseaseName,
       disease_dna_sequence: this.state.sequenceDNA,
-      overwrite_existing: false,
+      overwrite_existing: this.state.overwrite_existing,
     });
 
     axios.post(api + '/api/addDisease', data, 
@@ -49,6 +50,13 @@ export default class AddDisease extends Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
+  handleChangeCheckBox = (e) => {
+    const { checked } = e.target
+    this.setState({
+      overwrite_existing : checked
+    })
+  }
+
   uploadFile(event) {
     this.setState({ visible: false })
     let file = event.target.files[0];
@@ -66,7 +74,7 @@ export default class AddDisease extends Component {
     
     return (
       <div>
-        <div className="mt-10 mx-auto max-w-screen-lg px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-10 lg:px-8 xl:mt-15 " >
+        <div className="mt-10 mx-auto max-w-screen-xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-10 lg:px-8 xl:mt-15 " >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="lg:text-center">
               <p className=" text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -77,7 +85,7 @@ export default class AddDisease extends Component {
           <form action="#" method="POST">
             <div className="shadow overflow-hidden sm:rounded-md text-center items-center mt-10">
               <div className="px-4 py-5 bg-white sm:p-6">
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-6 gap-6">
 
                   <div className="col-span-4 sm:col-span-4 lg:col-span-2 center">
                     <label htmlFor="diseaseName" className=" text-sm font-medium text-gray-700">
@@ -120,9 +128,29 @@ export default class AddDisease extends Component {
                       </div>
                     </div>
                   </div>
+                  <div className="col-span-2 sm:col-span-2 lg:col-span-2 center">
+                  <div className="flex items-start">
+                    <div className="flex items-center h-28">
+                      <input
+                        id="overwrite_existing"
+                        name="overwrite_existing"
+                        type="checkbox"
+                        // value = {this.state.overwrite_existing}
+                        onChange={e => this.handleChangeCheckBox(e)}
+                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                        <label htmlFor="comments" className="text-sm font-medium text-gray-700 pt-3">
+                        Overwrite
+                      </label>
+                      <p className="text-gray-500 pt-5">Change the curent sequence DNA if has same name disease</p>
+                    </div>
+                  </div>
+                </div>
                 </div>
               </div>
-              <div className="mt-10 px-4 py-3 bg-gray-50 text-center sm:px-6">
+              <div className=" px-4 py-3 bg-gray-50 text-center sm:px-6">
                 <button
                   type="button"
                   className="mt-5 inline-flex justify-center py-2 px-4 w-52 border-transparent shadow-sm text-sm  rounded-md text-white bg-indigo-600 hover:bg-indigo-700"

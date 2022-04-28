@@ -9,7 +9,7 @@ const Navbar = () => {
                       <div className="flex items-center">
                           <div className="flex-shrink-0">
                               {/* add image here */}
-                              <img className="h-8 w-8" src="" alt="Aj"/>
+                              {/* <img className="h-8 w-8" src="" alt="Aj"/> */}
                           </div>
                           <div className=" md:block">
                               <div className="ml-10 flex items-baseline space-x-4">
