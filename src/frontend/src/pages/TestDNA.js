@@ -163,7 +163,7 @@ export default class TestDNA extends Component {
                             </div>
                             <div className="lg:text-center">    
                                 <p className=" text-xl leading-8 font-medium tracking-tight text-gray-900 sm:text-2xl py-8">
-                                    {this.state.result.test_date} - {this.state.name} - {this.state.diseasePredict} - {this.state.result.positive? 'true':'false'} - {this.state.result.similarity}
+                                    {this.state.result.test_date} - {this.state.name} - {this.state.diseasePredict} - {this.state.result.positive? 'true':'false'} - {this.state.result.similarity} %
                                 </p>
                             </div>
                         </div>
