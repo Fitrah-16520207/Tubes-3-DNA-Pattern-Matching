@@ -23,7 +23,8 @@
 4. Jika tidak otomatis membuka browser dapat membuka localhost:3000 pada browser
 
 ## Dibuat Oleh
-Kelompok 36 - AstraJenaka <br/>
-Fitrah Ramadhani Nugroho		 13520030 <br/>
-Mahesa Lizardy		             13520116 <br/>
-Bryan Amirul Husna		         13520146 <br/>
+**Kelompok 36 - AstraJenaka**
+
+13520030 Fitrah Ramadhani Nugroho		  <br/>
+13520116 Mahesa Lizardy		              <br/>
+13520146 Bryan Amirul Husna		          <br/>
