@@ -12,3 +12,18 @@
     npm run start-server // untuk memulai server biasa
     ```
 4. Lakukan request, bisa melalui aplikasi client atau melalui Postman
+
+## Cara Menjalankan Frontend
+1. Pastikan sudah memiliki/menginstall node dan npm
+2. Pertama masuk ke direktori frontend yang terdapat pada folder src
+3. Dari folder frontend, jalankan:
+    ```shell
+    npm start 
+    ```
+4. Jika tidak otomatis membuka browser dapat membuka localhost:3000 pada browser
+
+## Dibuat Oleh
+Kelompok 36 - AstraJenaka <br/>
+Fitrah Ramadhani Nugroho		 13520030 <br/>
+Mahesa Lizardy		             13520116 <br/>
+Bryan Amirul Husna		         13520146 <br/>
